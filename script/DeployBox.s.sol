@@ -15,8 +15,8 @@ contract DeployBox is Script {
         // Deploy implementation
         Box box = new Box();
         
-        // Deploy ProxyAdmin
-        ProxyAdmin admin = new ProxyAdmin();
+        // Deploy ProxyAdmin with the deployer's address as the initial owner
+        ProxyAdmin admin = new ProxyAdmin(vm.addr(deployerPrivateKey));
         
         // Encode initialization data
         bytes memory data = abi.encodeWithSelector(Box.initialize.selector, 42);

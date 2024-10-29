@@ -8,6 +8,7 @@ import "../src/Box.sol";
 import "../src/BoxV2.sol";
 
 contract BoxTest is Test {
+    uint256 internal deployerPrivateKey = 123;
     Box box;
     BoxV2 boxV2;
     ProxyAdmin admin;
@@ -18,7 +19,7 @@ contract BoxTest is Test {
         box = new Box();
         
         // Deploy ProxyAdmin
-        admin = new ProxyAdmin();
+        admin = new ProxyAdmin(vm.addr(deployerPrivateKey));
         
         // Encode initialization data
         bytes memory data = abi.encodeWithSelector(Box.initialize.selector, 42);
@@ -44,7 +45,7 @@ contract BoxTest is Test {
         boxV2 = new BoxV2();
         
         // Upgrade
-        admin.upgrade(proxy, address(boxV2));
+        admin.upgradeAndCall(TransparentUpgradeableProxy(address(proxy)), address(boxV2), "");
         
         BoxV2 proxiedBoxV2 = BoxV2(address(proxy));
         

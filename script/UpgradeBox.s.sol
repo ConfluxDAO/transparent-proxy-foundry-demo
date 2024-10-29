@@ -18,9 +18,10 @@ contract UpgradeBox is Script {
         
         // Upgrade proxy
         ProxyAdmin admin = ProxyAdmin(adminAddress);
-        admin.upgrade(
-            TransparentUpgradeableProxy(payable(proxyAddress)),
-            address(boxV2)
+        admin.upgradeAndCall(
+            ITransparentUpgradeableProxy(payable(proxyAddress)),
+            address(boxV2),
+            ""  // empty bytes for no initialization
         );
 
         vm.stopBroadcast();
