@@ -26,7 +26,7 @@ contract BoxV2 is Initializable {
         return _value;
     }
 
-    // 新增的函数
+    // New added function
     function increment() public {
         _value = _value + 1;
         emit ValueChanged(_value);
