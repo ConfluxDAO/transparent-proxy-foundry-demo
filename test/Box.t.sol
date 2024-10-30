@@ -45,7 +45,7 @@ contract BoxTest is Test {
         boxV2 = new BoxV2();
         
         // Upgrade
-        admin.upgradeAndCall(TransparentUpgradeableProxy(address(proxy)), address(boxV2), "");
+        admin.upgradeAndCall(ITransparentUpgradeableProxy(address(proxy)), address(boxV2), "");
         
         BoxV2 proxiedBoxV2 = BoxV2(address(proxy));
         

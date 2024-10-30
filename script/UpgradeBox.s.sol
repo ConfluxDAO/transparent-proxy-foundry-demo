@@ -13,20 +13,20 @@ contract UpgradeBox is Script {
         
         vm.startBroadcast(deployerPrivateKey);
 
-        // Deploy new implementation
+        // Deploy new implementation contract
         BoxV2 boxV2 = new BoxV2();
-        
-        // Upgrade proxy
-        ProxyAdmin admin = ProxyAdmin(adminAddress);
-        admin.upgradeAndCall(
-            ITransparentUpgradeableProxy(payable(proxyAddress)),
-            address(boxV2),
-            ""  // empty bytes for no initialization
-        );
+        console.log("New implementation:", address(boxV2));
 
+        // Upgrade using ProxyAdmin
+        ProxyAdmin proxyAdmin = ProxyAdmin(adminAddress);
+        proxyAdmin.upgradeAndCall(
+            ITransparentUpgradeableProxy(proxyAddress),
+            address(boxV2),
+            "" // Empty bytes since we don't need to call initialize
+        );
+        
         vm.stopBroadcast();
 
-        console.log("BoxV2 implementation deployed to:", address(boxV2));
-        console.log("Proxy upgraded");
+        console.log("Upgrade completed successfully");
     }
-} 
+}
